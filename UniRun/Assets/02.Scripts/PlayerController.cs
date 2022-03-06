@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
     void Die()
     {
         // 사망 처리
-        // 만약 플fp이어가 죽었다면 애니메이터의 Die 트리거 파라미터를 Set
+        // 만약 플레이어가 죽었다면 애니메이터의 Die 트리거 파라미터를 Set
         animator.SetTrigger("Die");
 
         // 오디오 소스에 할당된 점프 사운드 오디오 클립을 deathClip으로 변경
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
         // 트리거 콜라이더를 가진 장애물과의 충돌 감지
         // 장애물에서 컴포넌트 is Trigger 체크 할 것
         // 충돌이 감지된 오브젝트가 장애물이나 데드존인지 인지 할것 => 태그사용
-        // 충돌한 상대바으이 태그가 Dead 이면서 아직 사망하지 않았다면...!
+        // 충돌한 상대방의 태그가 Dead 이면서 아직 사망하지 않았다면...!
         if (collision.tag == "Dead" && !isDead)
         {
             Die();
