@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         // 3. 마우스 좌클릭 길게 누를 때 높이 점프하게 처리
         // 4. 최대점프횟수에 도달하면 점프를 못하게 막기
 
-        // 사망 시 더이상 처리를 진행하지 않고 종료하기
+        // 사망 시 더이상 아래 써논거 처리를 진행하지 않고 종료하기
         if (isDead) return;
 
         // 마우스 좌클릭 시 & 최대점프 횟수 2회 도달하지 않았다면
@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
         // 어떤 콜라이더와 닿았으며, 충돌 표면이 위쪽을 보고 있는지 확인
         if(collision.contacts[0].normal.y > 0.7f)
         {
-            //contacts :  충돌 지점의 정보를 담는 ContactPoint2D 타입의 데이터를 contacts라는 배열 변수로 제공받는다.
+            // contacts :  충돌 지점의 정보를 담는 ContactPoint2D 타입의 데이터를 contacts라는 배열 변수로 제공받는다.
             // normal : 충돌지점에서 충돌 표면의 방향(노말벡터)를 알려주는 변수입니다.
             // isGrounded를 true로 변경하고 누적 점프횟수를 0으로 리셋
             isGrounded = true;
