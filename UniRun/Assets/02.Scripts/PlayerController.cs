@@ -95,6 +95,13 @@ public class PlayerController : MonoBehaviour
         // 나 사망했어...사망상태 true로 변경해서 알림
         isDead = true;
 
+        // 게임매니저의 게임오버 처리 실행(게임매니저 안의 instance에 접근처리가 필요하다.)
+        GameManager.instance.OnPlayerDead();
+
+        // 이런식으로 작성할 것을 static 한정자를 사용함으로써 바로 불러올 수 있다.
+        // GameManager gameManager = new GameManager;
+        // gameManager.OnPlayerDead();
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

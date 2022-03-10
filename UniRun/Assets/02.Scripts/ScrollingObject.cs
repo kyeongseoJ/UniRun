@@ -11,10 +11,13 @@ public class ScrollingObject : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.instance.isGameOver)  // isGameOver가 false 라면.. == 살아있다면 움직여라
+        {
         // 초당 speed의 속도로 왼쪽으로 평행이동 구현
         // 위치값에 따른 움직임 처리
         transform.Translate(Vector3.left * speed * Time.deltaTime);
         // transform.Translate(new Vector2(10,0)* speed); => transform.Translate(0, 0, 0);
+        }
     }
 
 }
