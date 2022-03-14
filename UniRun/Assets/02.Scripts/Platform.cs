@@ -7,7 +7,8 @@ public class Platform : MonoBehaviour
 {
     // 장애물 오브젝트들을 담는 배열
     public GameObject[] obstacles;
-    // 플레잉어 캐릭터가 밟았는지  (발판 밟을 때 처음 1회만 점수 올리기)
+
+    // 플레이어 캐릭터가 밟았는지  (발판 밟을 때 처음 1회만 점수 올리기)
     private bool stepped = false;
 
     // 새로운 유니티 이벤트 메서드를 확인
