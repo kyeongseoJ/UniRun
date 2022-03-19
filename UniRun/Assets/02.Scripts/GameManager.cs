@@ -14,12 +14,21 @@ public class GameManager : MonoBehaviour
     public Text scoreText; // 점수를 출력할 UI 텍스트
     public GameObject gameoverUI; // 게임오버시 활성화할 UI 오브젝트
 
-
     private int score = 0; // 게임 점수
+
+    public int hp = 2; // 체력 변수 설정
+    public Text hpText; // 체력표시할 UI 텍스트
+
+    public GameObject menuPanel; // 메뉴 클릭시 패널 활성화를 위한 UI 오브젝트
+
+
+    public bool isPause = false;// 일시정지 상태
+
 
     // 게임 시작과 동시에 싱글턴을 구성
     private void Awake()
     {
+
         // 싱글턴 변수 instance 가 비어 있나요?
         if (instance == null)
         {
@@ -72,10 +81,51 @@ public class GameManager : MonoBehaviour
     // 플레이어가 사망 시 게임 오버를 실행하는 메서드
     public void OnPlayerDead()
     {
-        // 현재 상태를 게임오버 상태로변경
+        // 현재 상태를 게임오버 상태로 변경
         isGameOver = true;
         // 게임오버 텍스트 게임 오브젝트를 활성화
         gameoverUI.SetActive(true);
+    }
+
+    // 체력 감소 표시
+    public void HpUpdate()
+    {
+        // 체력 감소된 값을 텍스트 안에 작성
+        hpText.text =  "HP " + hp;
+        
+    }
+
+    // 점프인식되는 문제 해결안됨
+    // 메뉴 클릭시 화면 일시정지 및 패널 활성화
+    public void OnMenu()
+    {
+        if (!isPause)
+        {   // 일시정지 중이 아니면 일시정지
+            Time.timeScale = 0; // 시간정지
+            // 패널활성화
+            menuPanel.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1.0f; // 시간흐름 비율 1
+            menuPanel.SetActive(false);
+        }
+
+        isPause = !isPause; // 메뉴 누를 때마다 상태가 반대로 바뀜
+    }
+
+    // 재시작 기능 구현
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1.0f;
+    }
+    
+
+    // 게임 종료 구현 
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
 }

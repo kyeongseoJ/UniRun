@@ -24,6 +24,10 @@ public class PlayerController : MonoBehaviour
     // 사용할 애니메이터 컴포넌트
     private Animator animator;
 
+    // 플레이어의 충돌 상태: 충돌했는지 안했는지
+  //  private bool isCrashed = false;
+
+
     void Start()
     {
         // 전역변수의 초기화 진행
@@ -31,6 +35,7 @@ public class PlayerController : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerAudio = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
+
     }
 
     // 
@@ -65,7 +70,7 @@ public class PlayerController : MonoBehaviour
         {
             // 마우스 좌클릭에서 손을 떼는 순간과 y값이 양수라면(=위로 상승 중) 현재속도를 절반으로 변경 (y값이 음수면 아래)
             playerRigidbody.velocity = playerRigidbody.velocity * 0.5f;
-           
+
         }
 
         // 애니메이터의 Grounded 파라미터를 isGrounded 값으로 갱신 => OnCollisionExit2D 여기서 사용하기 위해 계속 업데이트 해줘야함
@@ -104,19 +109,29 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void Crash()
+    {
+        // 충돌 처리
+        // 만약 플레이어가 충돌했다면 애니메이터의 Crashed Bool 파라미터를 Set
+        animator.SetTrigger("Crash");
+
+        // 충돌 시 속도를 제로 상태로 변경
+        playerRigidbody.velocity = Vector2.zero;
+      
+
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // 바닥에 닿자마자 감지하는 처리 : isGrounded 사용 해서 true 인지 false인지 확인
         // 어떤 콜라이더와 닿았으며, 충돌 표면이 위쪽을 보고 있는지 확인
-        if(collision.contacts[0].normal.y > 0.7f)
+        if (collision.contacts[0].normal.y > 0.7f)
         {
             // contacts :  충돌 지점의 정보를 담는 ContactPoint2D 타입의 데이터를 contacts라는 배열 변수로 제공받는다.
             // normal : 충돌지점에서 충돌 표면의 방향(노말벡터)를 알려주는 변수입니다.
             // isGrounded를 true로 변경하고 누적 점프횟수를 0으로 리셋
             isGrounded = true;
             jumpCount = 0;
-
-
         }
     }
 
@@ -125,17 +140,35 @@ public class PlayerController : MonoBehaviour
         // 바닥에 벗어나자 마자 처리
         // 어떤 콜라이더에서 떼어진 경우 isGrounded를 false로 변경
         isGrounded = false;
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
+    // 트리거 콜라이더를 가진 장애물과의 충돌 감지
+    // 장애물에서 컴포넌트 is Trigger 체크 할 것
+    // 충돌이 감지된 오브젝트가 장애물이나 데드존인지 인지 할것 => 태그사용
     {
-        // 트리거 콜라이더를 가진 장애물과의 충돌 감지
-        // 장애물에서 컴포넌트 is Trigger 체크 할 것
-        // 충돌이 감지된 오브젝트가 장애물이나 데드존인지 인지 할것 => 태그사용
-        // 충돌한 상대방의 태그가 Dead 이면서 아직 사망하지 않았다면...!
-        if (collision.tag == "Dead" && !isDead)
+
+        // 체력 표시
+        // 충돌 시 체력 감소  : 충돌이 감지된 상대의 태그가 Dead이고 살아있고 hp가 0보다 크다면 hp 1씩 감소
+        if (collision.tag == "Dead" && !isDead && GameManager.instance.hp > 0)
+        {
+            Crash();
+            
+            GameManager.instance.hp--;
+            //Debug.Log(hp);
+            GameManager.instance.HpUpdate();
+        }
+        // 체력이 0이 아니라도 데드존에 닿으면 사망처리
+        if (!(GameManager.instance.hp == 0) && collision.tag == "Deadzone")
+        {
+            Die();
+        }
+        // 충돌한 상대방의 태그가 Dead 이면서 살아있고 hp가 0이된다면 사망처리
+        if (collision.tag == "Dead" && !isDead && GameManager.instance.hp == 0)
         {
             Die();
         }
     }
+
 }
