@@ -27,16 +27,16 @@ public class PlatformSpawner : MonoBehaviour
     public float timeBetSpawn;
 
     // 배치할 위치의 최소 y값
-    public float yMin = -3.5f;
+    public static float yMin = -3.5f;
     // 배치할 위치의 최대 y값
-    public float yMax = 1.5f;
+    public static float yMax = 1.5f;
     // 배치할 위치의 x값
-    private float xPos = 20f;
+    public static float xPos = 20f;
 
     // 미리 생성한 발판들
     private GameObject[] platforms;
     // 사용할 현재 순번의 발판
-    private int currenIndex = 0;
+    private int currentIndex = 0;
 
     // 초반에 생성한 발판을 화면 밖에 숨겨둘 위치
     private Vector2 poolPosition = new Vector2(0, -25);
@@ -83,18 +83,18 @@ public class PlatformSpawner : MonoBehaviour
 
             // 사용할 현재 순번의 발판, 게임의 오브젝트를 비활성화하고 즉시 다시 활성화
             // 이때 발판의 Platform 컴포넌트와 OnEnable 메서드가 실행됨
-            platforms[currenIndex].SetActive(false);
-            platforms[currenIndex].SetActive(true);
+            platforms[currentIndex].SetActive(false);
+            platforms[currentIndex].SetActive(true);
 
             // 현재 순반의 발판을 화면 오른쪽에 배치
-            platforms[currenIndex].transform.position = new Vector2(xPos, yPos);
+            platforms[currentIndex].transform.position = new Vector2(xPos, yPos);
             // 순번 넘기기
-            currenIndex++;
+            currentIndex++;
 
             // 마지막 순번에 도달했다면 순번을 리셋
-            if(currenIndex >= count)
+            if(currentIndex >= count)
             {
-                currenIndex = 0;
+                currentIndex = 0;
             }
         }
     }

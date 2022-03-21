@@ -23,7 +23,7 @@ public class Platform : MonoBehaviour
 
         // 밝힘 상태를 리셋
         stepped = false;
-        // 나중에 장애물을 추가하거나 제거할떄 접근을 위해 소프트 코딩
+        // 나중에 장애물을 추가하거나 제거할 때 접근을 위해 소프트 코딩
         // 장애물의 수만큼 루프
         // for문으로 배열의 공간을 확인 후 접근하면 된다.
         for (int i = 0; i < obstacles.Length; i++)

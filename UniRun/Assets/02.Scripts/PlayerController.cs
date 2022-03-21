@@ -24,8 +24,8 @@ public class PlayerController : MonoBehaviour
     // 사용할 애니메이터 컴포넌트
     private Animator animator;
 
-    // 플레이어의 충돌 상태: 충돌했는지 안했는지
-  //  private bool isCrashed = false;
+    // 플레이어의 장애물 충돌 상태: 충돌했는지 안했는지
+    //  private bool isCrashed = false;
 
 
     void Start()
@@ -169,6 +169,7 @@ public class PlayerController : MonoBehaviour
         {
             Die();
         }
+    
     }
 
 }

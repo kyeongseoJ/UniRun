@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Dead
   - Deadzone
+  - Item
   layers:
   - Default
   - TransparentFX
