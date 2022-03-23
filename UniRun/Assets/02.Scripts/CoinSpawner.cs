@@ -4,15 +4,16 @@ using UnityEngine;
 
 
 // 높이가 순차적으로 생성되는 코인만드려면...?
-// 범위내에서 랜덤 생성하고 정렬해줘야한다. 가능하다면 점프 시 그리는 포물선 대로 배치하고 싶음
+// 범위내에서 랜덤 생성하고 정렬?  가능하다면 점프 시 그리는 포물선 대로 배치하고 싶음
 // 추가적으로 x값도 범위로 생성될 위치를 지정해줘야한다.
 // 만약 인공지능으로 플레이어의 최적 경로를 예측하고 그 위치대로 코인을 생성한다면..?
 // 하트 아이템을 만들어서 체력을 회복 시키고 싶다면 어떻게 구현해야할까..? 
 // hpupdate에 충돌로 아이템 습득 시  += 1 로 만들어보기
+
 public class CoinSpawner : MonoBehaviour
 {
     // 생성할 코인의 원본 프리펩
-    private GameObject coinPrefab;
+    public GameObject coinPrefab;
     // 생성할 코인 수
     public int count = 5;
 
@@ -24,13 +25,15 @@ public class CoinSpawner : MonoBehaviour
     public float timeBetSpawn;
 
 
-    // 플랫폼 기준으로 설정하기
+    // 플랫폼 기준으로 생성될 범위 위치 설정
+
     // 배치할 위치의 최소 y값
     float coinyMin = PlatformSpawner.yMin + 2.0f;
     // 배치할 위치의 최대 y값
     float coinyMax = PlatformSpawner.yMax + 4.0f;
     // 배치할 위치의 x값
-    float coinxPos = PlatformSpawner.xPos - 8.0f;
+    float coinxMin = PlatformSpawner.xPos - 8.0f;
+    float coinxMax = PlatformSpawner.xPos + 2.0f;
 
     // 미리 생성한 코인들
     private GameObject[] coins;
@@ -75,16 +78,16 @@ public class CoinSpawner : MonoBehaviour
             // 다음 배치까지의 시간 간격을 timeBetSpawnMin, timeBetSpawnMax 사이에서 랜덤 설정
             timeBetSpawn = Random.Range(timeBetSpawnMin, timeBetSpawnMax);
             // 배치할 위치의 높이를 yMin과  yMax 사이에서 랜덤 설정
-            float yPos = Random.Range(yMin, yMax);
-
+            float coinyPos = Random.Range(coinyMin, coinyMax);
+            float coinxPos = Random.Range(coinxMin, coinxMax);
 
             // 사용할 현재 순번의 코인, 게임의 오브젝트를 비활성화하고 즉시 다시 활성화
             // 이때 코인의 Coin 컴포넌트와 OnEnable 메서드가 실행됨
             coins[currentIndex].SetActive(false);
             coins[currentIndex].SetActive(true);
 
-            // 현재 순반의 코인을 화면 오른쪽에 배치
-            coins[currentIndex].transform.position = new Vector2(xPos, yPos);
+            // 현재 순번의 코인을 화면 오른쪽에 배치
+            coins[currentIndex].transform.position = new Vector2(coinxPos, coinyPos);
             // 순번 넘기기
             currentIndex++;
 

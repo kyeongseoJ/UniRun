@@ -43,7 +43,6 @@ public class PlatformSpawner : MonoBehaviour
     // 마지막 배치 시점
     private float lastSpawnTime;
 
-
    // 변수를 초기화하고 사용할 발판을 미리 생성
     void Start()
     {
@@ -57,13 +56,13 @@ public class PlatformSpawner : MonoBehaviour
             platforms[i] = Instantiate(platformPrefab, poolPosition, Quaternion.identity);
             // Quaternion.identity = Quaternion.Euler(new Vector3(0, 0, 0)); 축약법으로 작성
         }
+
         // 마지막 배치 시점 초기화
         lastSpawnTime = 0f;
         // 다음번 배치까지의 시간 간격을 초기화
         timeBetSpawn = 0f;
     }
-
-    
+   
    // 순서를 돌아가며 주기적으로 발판 설치
     void Update()
     {
@@ -88,11 +87,12 @@ public class PlatformSpawner : MonoBehaviour
 
             // 현재 순반의 발판을 화면 오른쪽에 배치
             platforms[currentIndex].transform.position = new Vector2(xPos, yPos);
+
             // 순번 넘기기
             currentIndex++;
 
             // 마지막 순번에 도달했다면 순번을 리셋
-            if(currentIndex >= count)
+            if (currentIndex >= count)
             {
                 currentIndex = 0;
             }

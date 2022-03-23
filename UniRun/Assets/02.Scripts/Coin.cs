@@ -13,6 +13,7 @@ public class Coin : MonoBehaviour
         {
             // 조건연산자로 한번에 처리
             items[i].SetActive(Random.Range(0, 3) == 0 ? true : false);
+            
         }
         
     }
