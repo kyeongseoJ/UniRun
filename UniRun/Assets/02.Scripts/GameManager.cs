@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
 
     public bool isPause = false;// 일시정지 상태
 
+    // 최고기록을 표시할 텍스트 컴포넌트
+    public Text recordText;
+    
 
     // 게임 시작과 동시에 싱글턴을 구성
     private void Awake()
@@ -85,6 +88,17 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         // 게임오버 텍스트 게임 오브젝트를 활성화
         gameoverUI.SetActive(true);
+
+        // 저장된 값이 없다면 0 할당된다.
+        int bestscore = PlayerPrefs.GetInt("BestScore");
+
+        if (score > bestscore)
+        {
+            bestscore = score;
+            Debug.Log(bestscore);
+            PlayerPrefs.SetInt("BestScore", bestscore);
+            recordText.text = "Best Score" + bestscore;
+        }
     }
 
     // 체력 감소 표시

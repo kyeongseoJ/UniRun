@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     // 플레이어의 장애물 충돌 상태: 충돌했는지 안했는지
-   // private bool isCrashed = false;
+    private bool isCrashed = false;
 
 
     void Start()
@@ -114,11 +114,12 @@ public class PlayerController : MonoBehaviour
     {
         // 충돌 처리
         // 만약 플레이어가 충돌했다면 애니메이터의 Crashed Bool 파라미터를 Set
+        animator.SetBool("Crashed", isCrashed);
         animator.SetTrigger("Crash");
 
         // 충돌 시 속도를 제로 상태로 변경
         playerRigidbody.velocity = Vector2.zero;
-        // isCrashed = true;
+        
       
 
     }
@@ -135,6 +136,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             jumpCount = 0;
         }
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -186,6 +188,11 @@ public class PlayerController : MonoBehaviour
         }
         
     
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        isCrashed = false;
     }
 
 }
