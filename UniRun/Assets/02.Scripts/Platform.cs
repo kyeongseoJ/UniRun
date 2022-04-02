@@ -8,6 +8,12 @@ public class Platform : MonoBehaviour
     // 장애물 오브젝트들을 담는 배열
     public GameObject[] obstacles;
 
+    // 코인을 담는 배열
+    public GameObject[] coins;
+
+    // 하트를 담을 배열
+    public GameObject[] hearts;
+
     // 플레이어 캐릭터가 밟았는지  (발판 밟을 때 처음 1회만 점수 올리기)
     private bool stepped = false;
 
@@ -41,6 +47,17 @@ public class Platform : MonoBehaviour
 
             // 조건연산자로 한번에 처리
             // obstacles[i].SetActive(Random.Range(0, 3) == 0 ? true : false);
+        }
+        // 코인 1/5 확률로 생성
+        for (int i = 0; i < coins.Length; i++)
+        {
+            coins[i].SetActive(Random.Range(0, 5) == 0 ? true : false);
+        }
+
+        // 하트 1/20 확률로 생성
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            hearts[i].SetActive(Random.Range(0, 50) == 0 ? true : false);
         }
 
     }

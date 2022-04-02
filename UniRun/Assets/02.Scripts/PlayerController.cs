@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     // 플레이어의 장애물 충돌 상태: 충돌했는지 안했는지
-    //  private bool isCrashed = false;
+    private bool isCrashed = false;
 
 
     void Start()
@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
 
         // 점프 시 속도 변화 보기
         // Debug.Log(playerRigidbody.velocity.y);
+
     }
 
     void Die()
@@ -113,10 +114,12 @@ public class PlayerController : MonoBehaviour
     {
         // 충돌 처리
         // 만약 플레이어가 충돌했다면 애니메이터의 Crashed Bool 파라미터를 Set
+        animator.SetBool("Crashed", isCrashed);
         animator.SetTrigger("Crash");
 
         // 충돌 시 속도를 제로 상태로 변경
         playerRigidbody.velocity = Vector2.zero;
+        
       
 
     }
@@ -133,6 +136,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             jumpCount = 0;
         }
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -148,7 +152,6 @@ public class PlayerController : MonoBehaviour
     // 장애물에서 컴포넌트 is Trigger 체크 할 것
     // 충돌이 감지된 오브젝트가 장애물이나 데드존인지 인지 할것 => 태그사용
     {
-
         // 체력 표시
         // 충돌 시 체력 감소  : 충돌이 감지된 상대의 태그가 Dead이고 살아있고 hp가 0보다 크다면 hp 1씩 감소
         if (collision.tag == "Dead" && !isDead && GameManager.instance.hp > 0)
@@ -169,7 +172,27 @@ public class PlayerController : MonoBehaviour
         {
             Die();
         }
+        // 충돌한 태그가 Heart이고 살아있다면 hp ++ 처리
+        if(collision.tag == "Heart" && !isDead)
+        {
+            GameManager.instance.hp++;
+            GameManager.instance.HpUpdate();
+            collision.gameObject.SetActive(false);
+
+        }
+        // 충돌한 태그가 Item이고 살아있다면 코인당 점수 100점씩 올리기
+        if (collision.tag =="Item" && !isDead)
+        {
+            GameManager.instance.AddScore(100);
+            collision.gameObject.SetActive(false);
+        }
+        
     
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        isCrashed = false;
     }
 
 }
